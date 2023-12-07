@@ -1,0 +1,60 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+{% block title %}Manager{% endblock title %}
+
+
+{% block body %}
+
+
+   <!-- Content -->
+   <div class="container mt-3">
+
+    <!-- Registration Form -->
+    <div class="card">
+        <div class="card-header">
+            Employee updation
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'employee_update' employee.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" class="form-control" id="email" name="email" value="{{ employee.user.email }}" required>
+                </div>
+            
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input type="text" class="form-control" id="name" name="name" value="{{ employee.name }}" required>
+                </div>
+            
+                <div class="form-group">
+                  <label for="phone">Phone:</label>
+                  <input type="text" class="form-control" id="phone" name="phone" value="{{ employee.phone }}" required>
+                </div>
+            
+                <div class="form-group">
+                  <label for="work_mail">Work Mail:</label>
+                  <input type="email" class="form-control" id="work_mail" name="work_mail" value="{{ employee.work_mail }}" required>
+                </div>
+            
+                <div class="form-group">
+                  <label for="work_phone">Work Phone:</label>
+                  <input type="text" class="form-control" id="work_phone" name="work_phone" value="{{ employee.work_phone }}" required>
+                </div>
+            
+                <div class="form-group">
+                  <label for="profilePhoto">Profile Photo:</label>
+                  <input type="file" class="form-control-file" id="profilePhoto" name="profilePhoto">
+                </div>
+            
+                <button type="submit" class="btn btn-primary">Update</button>
+              </form>
+              <div class="mt-3">
+                <a href="{% url 'outofservice' employee.id %}" class="btn btn-danger">Out of service</a>
+              </div>
+        </div>
+    </div>
+
+</div>
+    {% endblock body %}

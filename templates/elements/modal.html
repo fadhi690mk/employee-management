@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Messages</title>
+    <style>
+        /* Styles for the coverlay */
+        .coverlay {
+            display: none;
+            z-index: 1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Styles for the cmodal */
+        .cmodal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Success message styles */
+        .success {
+            background-color: #ffffff;
+            color: #00b512;
+        }
+
+        /* Error message styles */
+        .error {
+            background-color: #fff;
+            color: #e21102;
+        }
+
+        /* Style for the cclose button */
+        .cclose-cbtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #000000;
+        }
+        .cbtn-msg {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 0 5px;
+            margin: 10px;
+            border: 2px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+            width: max-content;
+        }
+
+        .cbtn-msg:hover {
+            background-color: #070707;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- The coverlay -->
+<div id="coverlay" class="coverlay"></div>
+
+<!-- The cmodal -->
+<div id="cmodal" class="cmodal">
+    <span class="cclose-cbtn" onclick="ccloseModal()">&times;</span>
+    <div id="message-content" class="mt-3"></div>
+    <button onclick="ccloseModal()" class="cbtn-msg">close</button>
+</div>
+<script>
+    // Function to open the cmodal with Django messages
+    function openMessageModal(message, messageType) {
+        // Display the coverlay and cmodal
+        document.getElementById('coverlay').style.display = 'block';
+        document.getElementById('cmodal').style.display = 'block';
+
+        // Set the message content
+        document.getElementById('message-content').innerHTML = message;
+
+        // Apply styles based on message type
+        document.getElementById('cmodal').classList.add(messageType);
+    }
+
+    function ccloseModal() {
+        // Hide the coverlay and cmodal
+        document.getElementById('coverlay').style.display = 'none';
+        document.getElementById('cmodal').style.display = 'none';
+
+        // Remove the message type class
+        document.getElementById('cmodal').classList.remove('success', 'error');
+    }
+</script>
+
+{% if messages %}
+{% for message in messages %}
+    <script>
+        // Display the first Django message in the cmodal
+        openMessageModal("{{ message }}","{{ message.tags }}");
+    </script>
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>

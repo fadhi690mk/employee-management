@@ -1,0 +1,23 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+{% block title %}Manager{% endblock title %}
+
+
+{% block body %}
+
+
+   <!-- Content -->
+   <div class="container mt-3">
+
+    {% for inbox in inboxes %}
+    <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">{{inbox.sender.name}}</h5>
+          <p class="card-text">{{inbox.employeemessage}}</p>
+          <p class="card-text"><i>{{inbox.date}}</i></p>
+          <a href="{% url 'delete_inbox' inbox.id %}" class="btn btn-danger">Close</a>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+    {% endblock body %}

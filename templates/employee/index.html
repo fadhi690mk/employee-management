@@ -1,0 +1,74 @@
+{% extends 'employee/base.html' %}
+{% load static %}
+{% block title %}Employee{% endblock title %}
+
+
+{% block body %}
+
+
+<!-- Content -->
+<div class="container mt-3">
+
+    <div class="card">
+        <div class="card-body text-center">
+            <h3 style="font-family: 'Brush Script MT', cursive;">{{myconstants.quotes}}</h3>
+
+        </div>
+    </div>
+
+    <p class="mt-3 text-center rounded bg-dark text-light">Notifications</p>
+
+    <div class="scroll-frame  mb-3">
+        <div class="frame-content">
+            {% for notification in notifications %}
+            {% if notification.is_outdated == False %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <p class="card-text">{{notification.date}}</p>
+                    <p class="card-text">{{notification.notifications}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Upload Random Numbers -->
+    <div class="card">
+        <div class="card-header">
+            WorkFlow Insight
+        </div>
+        <div class="card-body">
+            <table class="table table-dark table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Week(p)</th>
+                    <th>Month(p)</th>
+                    <th>Extra</th>
+                    <th>Points</th>
+
+                </tr>
+                {% for employee in employees %}
+                <tr class="table-primary">
+                    <td class="text-dark">{{employee.id}}</td>
+                    <td class="text-dark">{{employee.name}}</td>
+                    <td class="text-dark">{{employee.weeklyPending}}</td>
+                    <td class="text-dark">{{employee.monthlyPending}}</td>
+                    <td class="text-dark">{{employee.extraWork}}</td>
+                    <td class="text-dark">{{employee.points}}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+{% endblock body %}

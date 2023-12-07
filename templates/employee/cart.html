@@ -1,0 +1,83 @@
+{% extends 'employee/base.html' %}
+{% load static %}
+{% block title %}Employee{% endblock title %}
+
+
+{% block body %}
+
+
+    <!-- Content -->
+    <div class="container mt-3">
+
+      <p class="mt-3 text-center rounded bg-dark text-light">Numbers not taken</p>
+
+      <div class="scroll-frame  mb-3">
+          <div class="frame-content">
+            <table class="table  table-hover">
+              <tr>
+                  <th>Number</th>
+                  <th>Name</th>
+                  <th>Place</th>
+                  <th>To cart</th>
+              </tr>
+              {% for number in numbers %}
+              <tr>
+                <td>{{number.number}}</td>
+                <td>{{number.name}}</td>
+                <td>{{number.place}}</td>
+                <td><a href="{% url 'addcart' number.id %}" class="btn btn-primary">add</a></td>
+                <td></td>
+              </tr>
+              {% endfor %}
+             
+            </table>
+          </div>
+      </div>
+        
+      <p class="mt-3 text-center rounded bg-dark text-light">My cart</p>
+
+        <div class="card">
+          <table class="table  table-hover">
+            <tr>
+                <th>Number(call)</th>
+                <th>Name</th>
+                <th>Place</th>
+                <th>whatsapp</th>
+                <th>action</th>
+
+            </tr>
+            {% for number in mycart %}
+            <tr>
+              <td><a href="tel:{{number.number}}" class="link-offset-2 link-underline link-underline-opacity-0" >{{number.number}}</a></td>
+              <td>{{number.name}}</td>
+              <td>{{number.place}}</td>
+              <td><a href="https://wa.me/{{number.number}}" class="link-offset-2 link-underline link-underline-opacity-0">message</a></td>
+              <td><form id="statusForm" method="post" action="{% url 'update_status' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                <input type="hidden" name="client_id" value="{{ number.id }}">
+                <select class="form-control" id="status" name="status">
+                  <option value="{{number.status}}"  >{{number.status}}</option>
+                  <option value="interested">Interested</option>
+                  <option value="not_interested">Not Interested</option>
+                  <option value="no_response">No Response</option>
+                  <option value="hold">Hold</option>
+                </select>
+              </div>
+              </form></td>
+            </tr>
+            {% endfor %}
+            <script>
+              // Add this JavaScript code to trigger the form submission when the status changes
+              document.getElementById('status').addEventListener('change', function () {
+                document.getElementById('statusForm').submit();
+              });
+            </script>
+          </table>
+        </div>
+        {% for number in mycart %}
+        {% endfor %}
+
+    </div>
+
+    {% endblock body %}

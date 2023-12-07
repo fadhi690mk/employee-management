@@ -1,0 +1,62 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+{% block title %}Manager{% endblock title %}
+
+
+{% block body %}
+
+
+    <!-- Content -->
+    <div class="container mt-3">
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <form method="post" action="{% url 'quotes' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea class="form-control" name="quotes" id="notification" rows="3" placeholder="{{myconstants.quotes}}"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">update</button>
+                </form>
+            </div>
+        </div>
+        <!-- Upload Random Numbers -->
+        <div class="card">
+            <div class="card-header">
+                WorkFlow Insight
+                <a href="{% url 'workflow' %}" class="btn btn-outline-secondary">Detail</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-dark table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Week(p)</th>
+                        <th>Month(p)</th>
+                        <th>Extra</th>
+                        <th>Points</th>
+
+                    </tr>
+                    {% for employee in employees %}
+                    <tr class="table-primary">
+                        <td class="text-dark">{{employee.id}}</td>
+                        <td class="text-dark">{{employee.name}}</td>
+                        <td class="text-dark">{{employee.weeklyPending}}</td>
+                        <td class="text-dark">{{employee.monthlyPending}}</td>
+                        <td class="text-dark">{{employee.extraWork}}</td>
+                        <td class="text-dark">{{employee.points}}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+
+    {% endblock body %}

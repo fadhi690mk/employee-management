@@ -1,0 +1,92 @@
+{% extends 'employee/base.html' %}
+
+{% load static %}
+{% block title %}Manager{% endblock title %}
+
+{% block body %}
+<div class="p-3 d-flex justify-content-evenly">
+    <a href="{% url 'reportpageemployee' employee_id 'daily' %}" class="btn btn-outline-secondary">daily</a>
+    <a href="{% url 'reportpageemployee' employee_id 'weekly' %}" class="btn btn-secondary">weekly</a>
+    <a href="{% url 'reportpageemployee' employee_id 'monthly' %}" class="btn btn-outline-secondary">monthly</a>
+
+    <div class="form-group">
+        <select class="form-control" id="employeeSelect" name="employeeSelect">
+            <option value="">{{title}}</option>
+            <option value="0" data-url="{% url 'reportpageemployee' 0 'weekly' %}">
+                General
+            </option>
+            {% for employee in employees %}
+                <option value="{{ employee.id }}" data-url="{% url 'reportpageemployee' employee.id 'weekly' %}">
+                    {{ employee.user.username }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <script>
+        document.getElementById('employeeSelect').addEventListener('change', function () {
+            var selectedOption = this.options[this.selectedIndex];
+            var url = selectedOption.getAttribute('data-url');
+            window.location.href = url;
+        });
+    </script>
+    
+    
+</div>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Weekly Report</h1>
+
+    {% for week_data in reports_page %}
+    <div class="card mb-4">
+        <div class="card-header">
+                <h2>Year {{ week_data.year }}, Week {{ week_data.week_number }}</h2>
+            </div>
+            <table class="table  table-hover">
+                <tr>
+                    <th>sl.no</th>
+                    <th>Employee</th>
+                    <th>Client</th>
+                    <th>Date</th>
+                </tr>
+                {% for report in week_data.reports %}
+                <tr >
+                    <td class="text-dark">{{forloop.counter}}</td>
+                    <td class="text-dark">{{report.clientnumber.taken_by}}</td>
+                    <td class="text-dark">{{report.clientnumber.number}}</td>
+                    <td class="text-dark">{{report.date}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+    
+        </div>
+    {% endfor %}
+
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            {% if reports_page.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo; first</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ reports_page.previous_page_number }}">previous</a>
+                </li>
+            {% endif %}
+    
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Page {{ reports_page.number }} of {{ reports_page.paginator.num_pages }}.
+                </span>
+            </li>
+    
+            {% if reports_page.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ reports_page.next_page_number }}">next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ reports_page.paginator.num_pages }}">last &raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock body %}

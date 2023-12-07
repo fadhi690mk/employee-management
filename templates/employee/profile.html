@@ -1,0 +1,75 @@
+{% extends 'employee/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+
+{% block body %}
+
+
+
+<!-- Content -->
+<div class="container mt-3 d-flex flex-wrap justify-content-evenly">
+  <div class="card mt-2" style="width: 20rem;">
+    <img src="{{employee.profile_photo.url}}" class="card-img-top rounded-circle" width='18rem' alt="{{employee.name}}">
+    <div class="card-body">
+      <h5 class="card-title">{{employee.id}} : {{employee.name}}</h5>
+      <table class="table  table-hover">
+        <p>phone: {{employee.phone}}</p>
+        <p>email: {{employee.user.email}}</p>
+        <p>work_phone: {{employee.work_phone}}</p>
+        <p>work_mail: {{employee.work_mail}}</p>
+        <tr>
+          <td>weeklyPending</td>
+          <td>: {{employee.weeklyPending}}</td>
+        </tr>
+        <tr>
+          <td>weeklyDone </td>
+          <td>: {{employee.weeklyDone}}</td>
+        </tr>
+        <tr>
+          <td>monthlyDone </td>
+          <td>: {{employee.monthlyDone}}</td>
+        </tr>
+        <tr>
+          <td>monthlyPending </td>
+          <td>: {{employee.monthlyPending}}</td>
+        </tr>
+        <tr>
+          <td>extraWork </td>
+          <td>: {{employee.extraWork}}</td>
+        </tr>
+        <tr>
+          <td>totalWork </td>
+          <td>: {{employee.totalWork}}</td>
+        </tr>
+        <tr>
+          <td>points </td>
+          <td>: {{employee.points}}</td>
+        </tr>
+      </table>
+      <div class="card-body">
+        <form class="d-flex flex-column justify-content-center" method="post" action="{% url 'sendmessage' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <textarea class="form-control" name="message" id="message" rows="3" placeholder="leave a message"></textarea>
+        </div>
+          <button type="submit" class="btn btn-success">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-2 p-3" style="width: 20rem;min-width: max-content;">
+    <p class="mt-3 text-center rounded bg-light text-success">Achievements</p>
+    <table class="table">
+      {% for achievement in achievements %}
+      <tr>
+        <td>{{achievement.clientnumber.name}}</td>
+        <td>{{achievement.clientnumber.number}}</td>
+        <td>{{achievement.date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock body %}
