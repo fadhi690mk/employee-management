@@ -1,0 +1,19 @@
+
+{
+    "name": "TeamTime manager",
+    "short_name": "TeamTime manager",
+    "description": "Welcome to TeamTime manager",
+    "start_url": "/manager/", 
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "images/teamtime_manager.png",
+            "sizes": "500x500",
+            "type": "image/png"
+        }
+    ],
+    "id": "/manager/"
+
+}
